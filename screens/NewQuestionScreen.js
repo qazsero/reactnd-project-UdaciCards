@@ -5,6 +5,7 @@ import {Button, FormLabel, FormInput, FormValidationMessage, CheckBox} from 'rea
 import Toast, {DURATION} from 'react-native-easy-toast'
 
 import {sumQuestionToDeck, createQuestion} from '../actions'
+import gstyles from '../styles'
 
 class NewQuestionScreen extends Component {
   initialState = () => ({
@@ -84,7 +85,7 @@ class NewQuestionScreen extends Component {
           checked={!this.state.tfChecked}
         />
 
-        <Button onPress={() => this.onSubmitAndNext()} title='SAVE CARD' />
+        <Button onPress={() => this.onSubmitAndNext()} title='SAVE CARD' buttonStyle={gstyles.buttonStyle} />
         <Toast
           ref="toast"
           position='bottom'

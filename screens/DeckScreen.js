@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import {View, Text} from 'react-native'
 import {Button} from 'react-native-elements'
 
-import {removeDeck} from '../actions'
-
+import {removeQuestionsFromDeck, removeDeck, setDeckScreenKey} from '../actions'
+import gstyles from '../styles'
 
 selectedDeck = (state,navigation) => {
   let decks = state.filter((d) => d.id === navigation.state.params.matchId)
@@ -19,10 +19,15 @@ class DeckScreen extends Component {
     title: "Deck Options"
   })
 
+  componentDidMount(){
+    this.props.setDeckScreenKey(this.props.navigation.state.key)
+  }
+
 
 
   removeDeck = () => {
     let {deck} = this.props
+    this.props.removeQuestionsFromDeck(deck.id)
     this.props.removeDeck(deck.id)
     this.props.navigation.goBack()
   }
@@ -36,11 +41,11 @@ class DeckScreen extends Component {
 
     return (
       <View>
-        <Text>{deck.name}</Text>
-        <Text>{deck.questions} {deck.questions === 1 ? 'Card' : 'Cards'}</Text>
-        <Button onPress={() => this.props.navigation.navigate('newQuestion',{matchId})} title="CREATE NEW CARD" />
-        <Button onPress={() => this.props.navigation.navigate('quiz',{matchId})} title="START QUIZ" />
-        <Button onPress={() => this.removeDeck()} title="DELETE DECK" />
+        <Text style={gstyles.titleh1} >{deck.name}</Text>
+        <Text style={gstyles.textCenter} >{deck.questions} {deck.questions === 1 ? 'Card' : 'Cards'}</Text>
+        <Button onPress={() => this.props.navigation.navigate('newQuestion',{matchId})} title="CREATE NEW CARD" buttonStyle={gstyles.buttonStyle} />
+        <Button onPress={() => this.props.navigation.navigate('quiz',{matchId})} title="START QUIZ" buttonStyle={gstyles.buttonStyle} />
+        <Button onPress={() => this.removeDeck()} title="DELETE DECK" buttonStyle={gstyles.buttonStyle} />
       </View>
     )
   }
@@ -52,4 +57,4 @@ function mapStateToProps({decks}, {navigation}){
   }
 }
 
-export default connect (mapStateToProps, {removeDeck})(DeckScreen)
+export default connect (mapStateToProps, {removeQuestionsFromDeck, removeDeck, setDeckScreenKey})(DeckScreen)

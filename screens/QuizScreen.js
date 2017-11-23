@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text} from 'react-native'
-import {Button} from 'react-native-elements'
+import {View, Text, LayoutAnimation} from 'react-native'
+import {Button, Card} from 'react-native-elements'
+
+import gstyles from '../styles'
 
 
 /* SELECTORES */
@@ -17,6 +19,7 @@ questionsFromDeck = (state,navigation) => {
   return questions
 }
 
+
 /**********************************
 Procedimiento
 *Si no hay cartas se muestra mensaje de añadir una carta
@@ -24,14 +27,34 @@ Procedimiento
 **********************************/
 class QuizScreen extends Component {
   state = {
-    q_cant: this.props.quiz.length,
-    q_done: 0,
-    q_right: 0,
+    cant: this.props.quiz.length,
+    done: 0,
+    right: 0,
+    expanded: false,
   }
 
 
-  render(){
+  //Responder la Pregunta
+  answerQuestion = (question, answer) => {
+    let {done,right} = this.state
+    //Realizó una pregunta
+    done++
+    //Si es cierta subimos el contador
+    if(question.true === answer) {
+      right++
+    }
+    //Finalmente actualizamos el state
+    this.setState({done,right})
+  }
 
+  componentWillUpdate() {
+    LayoutAnimation.configureNext({
+      ...LayoutAnimation.Presets.linear,
+      duration: 250
+    });
+  }
+
+  render(){
     let {deck} = this.props
     let matchId = deck
 
@@ -39,11 +62,25 @@ class QuizScreen extends Component {
     if(this.props.quiz.length === 0){
       return (
         <View>
-          <Text>This Deck hasn't any cards</Text>
-          <Button onPress={() => this.props.navigation.goBack()} title="Return to deck and add a card" />
+          <Text style={gstyles.textCenter} >This Deck hasn't any cards</Text>
+          <Button onPress={() => this.props.navigation.goBack()} title="RETURN TO DECK AND ADD A CARD" buttonStyle={gstyles.buttonStyle} />
         </View>
       )
     }
+
+    //Si ha superado el Quiz
+    if(this.state.cant === this.state.done){
+      return (
+        <View>
+          <Text style={gstyles.titleh1} >You have finished the Quiz</Text>
+          <Text style={gstyles.textCenter} >{`Right answers: ${this.state.right} from ${this.state.cant} `}</Text>
+          <Button onPress={() => this.props.navigation.goBack(this.props.nav.deckScreenKey)} title="BACK TO MAIN SCREEN" buttonStyle={gstyles.buttonStyle} />
+        </View>
+      )
+    }
+
+    //Pregunta actual
+    let aq = this.props.quiz[this.state.done]
 
     //Si hay cartas y no va por la última
     //Librerias pa la animación del Flip
@@ -51,21 +88,25 @@ class QuizScreen extends Component {
     //https://github.com/jmurzy/react-native-foldview
     return (
       <View>
-        <Text>QuizScreen</Text>
-        <Text>QuizScreen</Text>
-        <Text>QuizScreen</Text>
-        <Text>QuizScreen</Text>
-        <Text>QuizScreen</Text>
-        <Text>QuizScreen</Text>
+        <Text style={gstyles.titleh1} >{`Question ${this.state.done+1} of ${this.state.cant} `}</Text>
+
+        <Card>
+          <Text style={gstyles.cardTitleh1} >{aq.question}</Text>
+          <Text>{aq.answer}</Text>
+        </Card>
+
+        <Button onPress={() => this.answerQuestion(aq,true)} title="TRUE" buttonStyle={gstyles.trueButtonStyle} />
+        <Button onPress={() => this.answerQuestion(aq,false)} title="FALSE" buttonStyle={gstyles.falseButtonStyle} />
       </View>
     )
   }
 }
 
-function mapStateToProps({decks, questions}, {navigation}){
+function mapStateToProps({decks, questions, nav}, {navigation}){
   return {
     deck: selectedDeck(decks, navigation),
-    quiz: questionsFromDeck(questions, navigation)
+    quiz: questionsFromDeck(questions, navigation),
+    nav
   }
 }
 

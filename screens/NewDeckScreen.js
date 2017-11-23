@@ -5,6 +5,7 @@ import {Button, FormLabel, FormInput, FormValidationMessage} from 'react-native-
 
 import {createDeck} from '../actions'
 import {createUid} from '../utils'
+import gstyles from '../styles'
 
 class NewDeckScreen extends Component {
   state = {
@@ -37,7 +38,7 @@ class NewDeckScreen extends Component {
           <FormLabel>Name</FormLabel>
           <FormInput value={this.state.deckName} onChangeText={deckName => this.setState({deckName})} />
           {this.state.isEmpty && <FormValidationMessage>Insert a name, please</FormValidationMessage>}
-          <Button onPress={this.handleSubmit} title='CREATE DECK' />
+          <Button onPress={this.handleSubmit} title='CREATE DECK' buttonStyle={gstyles.buttonStyle} />
       </View>
     )
   }
