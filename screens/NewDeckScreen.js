@@ -36,7 +36,7 @@ class NewDeckScreen extends Component {
       <View>
           <FormLabel>Name</FormLabel>
           <FormInput value={this.state.deckName} onChangeText={deckName => this.setState({deckName})} />
-          {this.state.isEmpty && <FormValidationMessage>Error message</FormValidationMessage>}
+          {this.state.isEmpty && <FormValidationMessage>Insert a name, please</FormValidationMessage>}
           <Button onPress={this.handleSubmit} title='CREATE DECK' />
       </View>
     )

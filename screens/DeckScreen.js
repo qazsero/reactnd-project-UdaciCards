@@ -5,20 +5,24 @@ import {Button} from 'react-native-elements'
 
 import {removeDeck} from '../actions'
 
+
+selectedDeck = (state,navigation) => {
+  let decks = state.filter((d) => d.id === navigation.state.params.matchId)
+  let deck = {id:0, name:'', questions:0}
+  if(decks.length == 1){ deck = decks[0] }
+  return deck
+}
+
+
 class DeckScreen extends Component {
   static navigationOptions = () => ({
     title: "Deck Options"
   })
 
-  selectedDeck = () => {
-    let decks = this.props.decks.filter((d) => d.id === this.props.navigation.state.params.matchId)
-    let deck = {id:0, name:'', questions:0}
-    if(decks.length == 1){ deck = decks[0] }
-    return deck
-  }
+
 
   removeDeck = () => {
-    let deck = this.selectedDeck()
+    let {deck} = this.props
     this.props.removeDeck(deck.id)
     this.props.navigation.goBack()
   }
@@ -27,21 +31,25 @@ class DeckScreen extends Component {
 
   render(){
 
-    let deck = this.selectedDeck()
+    let {deck} = this.props
+    let matchId = deck.id
 
     return (
       <View>
         <Text>{deck.name}</Text>
-        <Button title="CREATE NEW QUESTION" />
-        <Button title="START QUIZ" />
+        <Text>{deck.questions} {deck.questions === 1 ? 'Card' : 'Cards'}</Text>
+        <Button onPress={() => this.props.navigation.navigate('newQuestion',{matchId})} title="CREATE NEW CARD" />
+        <Button onPress={() => this.props.navigation.navigate('quiz',{matchId})} title="START QUIZ" />
         <Button onPress={() => this.removeDeck()} title="DELETE DECK" />
       </View>
     )
   }
 }
 
-function mapStateToProps({decks}){
-  return {decks}
+function mapStateToProps({decks}, {navigation}){
+  return {
+    deck: selectedDeck(decks, navigation)
+  }
 }
 
 export default connect (mapStateToProps, {removeDeck})(DeckScreen)

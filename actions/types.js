@@ -1,3 +1,5 @@
 export const CREATE_DECK = 'create_deck'
 export const REMOVE_DECK = 'remove_deck'
 export const ADD_CARD_TO_DECK = 'add_card_to_deck'
+export const SUM_QUESTION_TO_DECK = 'sum_question_to_deck'
+export const CREATE_QUESTION = 'create_question'
