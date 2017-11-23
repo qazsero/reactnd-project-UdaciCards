@@ -11,6 +11,11 @@ const gstyles = StyleSheet.create({
     fontWeight:'bold',
     marginBottom:15,
   },
+  cardTitleh2:{
+    fontSize:18,
+    marginBottom:5,
+    textAlign:'center'
+  },
   cardTitle:{
     fontSize:14,
     fontWeight:'bold',
@@ -18,6 +23,11 @@ const gstyles = StyleSheet.create({
   textCenter: {
     marginTop:5,
     textAlign:'center',
+  },
+  helperText: {
+    fontSize:12,
+    marginLeft:20,
+    color: "#607D8B"
   },
   buttonStyle: {
     marginTop:25,

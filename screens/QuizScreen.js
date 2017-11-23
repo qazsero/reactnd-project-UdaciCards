@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text, LayoutAnimation} from 'react-native'
+import {View, Text, LayoutAnimation, Animated, TouchableOpacity, StyleSheet} from 'react-native'
 import {Button, Card} from 'react-native-elements'
 
 import gstyles from '../styles'
@@ -44,15 +44,45 @@ class QuizScreen extends Component {
       right++
     }
     //Finalmente actualizamos el state
-    this.setState({done,right})
-  }
-
-  componentWillUpdate() {
     LayoutAnimation.configureNext({
       ...LayoutAnimation.Presets.linear,
       duration: 250
     });
+    this.setState({done,right})
   }
+
+  componentWillMount() {
+    this.animatedValue = new Animated.Value(0);
+    this.value = 0;
+    this.animatedValue.addListener(({ value }) => {
+      this.value = value;
+    })
+    this.frontInterpolate = this.animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['0deg', '180deg'],
+    })
+    this.backInterpolate = this.animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['180deg', '360deg']
+    })
+  }
+
+  flipCard = () => {
+    if (this.value >= 90) {
+      Animated.spring(this.animatedValue,{
+        toValue: 0,
+        friction: 8,
+        tension: 10
+      }).start();
+    } else {
+      Animated.spring(this.animatedValue,{
+        toValue: 180,
+        friction: 8,
+        tension: 10
+      }).start();
+    }
+  }
+
 
   render(){
     let {deck} = this.props
@@ -82,18 +112,41 @@ class QuizScreen extends Component {
     //Pregunta actual
     let aq = this.props.quiz[this.state.done]
 
-    //Si hay cartas y no va por la última
-    //Librerias pa la animación del Flip
-    //https://github.com/moschan/react-native-flip-card
-    //https://github.com/jmurzy/react-native-foldview
+    const frontAnimatedStyle = {
+      transform: [
+        { rotateY: this.frontInterpolate}
+      ]
+    }
+    const backAnimatedStyle = {
+      transform: [
+        { rotateY: this.backInterpolate }
+      ]
+    }
+
     return (
       <View>
         <Text style={gstyles.titleh1} >{`Question ${this.state.done+1} of ${this.state.cant} `}</Text>
 
-        <Card>
-          <Text style={gstyles.cardTitleh1} >{aq.question}</Text>
-          <Text>{aq.answer}</Text>
-        </Card>
+          <View>
+            <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
+              <TouchableOpacity onPress={() => this.flipCard()} >
+                <Card>
+                  <Text style={gstyles.cardTitleh1} >{aq.question}</Text>
+                  <Text>{aq.answer}</Text>
+                </Card>
+              </TouchableOpacity>
+            </Animated.View>
+            <Animated.View style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
+              <TouchableOpacity onPress={() => this.flipCard()} >
+                <Card>
+                  <Text style={gstyles.cardTitleh2} >Is the answer correct?</Text>
+                  <Text style={gstyles.textCenter}>{aq.true ? 'YES!':'NO'}</Text>
+                </Card>
+              </TouchableOpacity>
+            </Animated.View>
+          </View>
+
+        <Text style={gstyles.helperText}>Do you need help? Touch the Card!</Text>
 
         <Button onPress={() => this.answerQuestion(aq,true)} title="TRUE" buttonStyle={gstyles.trueButtonStyle} />
         <Button onPress={() => this.answerQuestion(aq,false)} title="FALSE" buttonStyle={gstyles.falseButtonStyle} />
@@ -101,6 +154,23 @@ class QuizScreen extends Component {
     )
   }
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  flipCard:{
+    width: '100%',
+    backfaceVisibility: 'hidden',
+  },
+  flipCardBack: {
+    position: "absolute",
+    top: 0,
+  }
+});
 
 function mapStateToProps({decks, questions, nav}, {navigation}){
   return {
