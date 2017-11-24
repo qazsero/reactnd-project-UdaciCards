@@ -2,6 +2,8 @@ Entrega del tercer proyecto del [React Nanodegree](https://www.udacity.com/cours
 
 El trabajo consiste en una aplicación móvil hecha en React Native, en la que usuarios pueden crear barajas de preguntas y respuestas que pueden ser reales o falsas. El mismo usuario puede enfrentarse a sus barajas.
 
+El usuario recibe una notificacion local a las 14:00 cada dia, si la última abertura de la app ha sido el dia anterior o anterior, para recordarle los estudios.
+
 ## Compatibilidad
 
 La aplicación funciona correctamente en IOS, sin embargo, contiene errores en su versión Android

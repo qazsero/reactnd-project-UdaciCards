@@ -1,5 +1,5 @@
 import React from 'react'
-import {AppLoading} from 'expo'
+import {AppLoading, Notifications} from 'expo'
 import {StyleSheet, Text, View} from 'react-native'
 import {TabNavigator,StackNavigator} from 'react-navigation'
 import {Icon} from 'react-native-elements'
@@ -16,6 +16,39 @@ import QuizScreen from './screens/QuizScreen'
 const { persistor, store } = configureStore()
 
 export default class App extends React.Component {
+
+  tomorrow14h (){
+    // Create a date for now and remember the time
+    var d = new Date()
+    var time = +d
+
+    // Set the time to 14:00 and, if earlier than now, add a day
+    d.setHours(14,0,0,0)
+    d.setDate(d.getDate() + 1)
+
+    console.log(d.getTime())
+    return d.getTime()
+  }
+
+  componentWillMount(){
+    //Boramos todas las notificaciones planteadas
+    //y creamos una para mañana a las 14 horas
+    Notifications.cancelAllScheduledNotificationsAsync()
+
+    let localNotification = {
+      title: 'Study with UdaciCards',
+      body: 'Prepare for exam and study with your decks today',
+    }
+
+
+    let schedulingOptions = {
+      time:this.tomorrow14h(),
+      repeat:'day'
+    }
+
+    Notifications.scheduleLocalNotificationAsync(localNotification, schedulingOptions)
+  }
+
   render() {
     const MainNavigator = StackNavigator({
       main: {
