@@ -22,11 +22,10 @@ export default class App extends React.Component {
     var d = new Date()
     var time = +d
 
-    // Set the time to 14:00 and, if earlier than now, add a day
+    // Set the time to 14:00 and add a day
     d.setHours(14,0,0,0)
     d.setDate(d.getDate() + 1)
 
-    console.log(d.getTime())
     return d.getTime()
   }
 
