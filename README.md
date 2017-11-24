@@ -9,7 +9,7 @@ La aplicación funciona correctamente en IOS, sin embargo, contiene errores en s
 
 ### Fallos conocidos
 
--En Android, durante el Quiz, las cartas de la baraja no se ven correctamente, cuando deben animarse al toque.  
+- En Android, durante el Quiz, las cartas de la baraja no se ven correctamente, cuando deben animarse al toque.  
 
 
 ## Requisitos previos
