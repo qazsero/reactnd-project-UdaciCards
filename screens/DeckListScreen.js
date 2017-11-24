@@ -1,12 +1,16 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {View, Text, ScrollView} from 'react-native'
+import { Icon } from 'react-native-elements'
 
 import DeckListCard from '../components/DeckListCard'
 
 class DeckListScreen extends Component {
   static navigationOptions = ({ navigation}) => ({
     title: 'Deck List',
+    tabBarIcon: ({ tintColor }) => (
+                  <Icon name="home" type="foundation" color={tintColor} />
+                ),
   })
 
 

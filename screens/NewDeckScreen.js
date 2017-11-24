@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {View, Text, Form} from 'react-native'
-import {Button, FormLabel, FormInput, FormValidationMessage} from 'react-native-elements'
+import {Icon, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native-elements'
 
 import {createDeck} from '../actions'
 import {createUid} from '../utils'
@@ -12,6 +12,7 @@ class NewDeckScreen extends Component {
     isEmpty:false,
     deckName:''
   }
+
 
   handleSubmit = () => {
     //Si el nombre está vacio mostrar Error
@@ -30,6 +31,9 @@ class NewDeckScreen extends Component {
 
   static navigationOptions = ({ navigation}) => ({
     title: 'Create new Deck',
+    tabBarIcon: ({ tintColor }) => (
+                  <Icon name="plus" type="foundation" color={tintColor} />
+                )
   })
 
   render(){
