@@ -35,15 +35,17 @@ Tras descargar una copia del proyecto es necesario instalar los paquetes de los 
 npm install
 ```
 
-## Uso
+## Ejecutando la App
 
-Tras la instalación, se inserta la siguiente línea de comando en la terminal.
+#### `npm start`
 
-```shell
-npm start
-```
+Abre la app en la [Expo app](https://expo.io) en tu móvil para verla.
 
-y en pocos instantes se abre el navegador por defecto con la página web cargada.
+#### `npm run ios`
+
+Igual que `npm start`, pero tambien intentará abrir la app en un simulador IOS si estás en usando el sistema operativo macOS y lo tienes instalado.
+
+
 
 
 ## Licencia
