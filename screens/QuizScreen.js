@@ -26,12 +26,15 @@ Procedimiento
 *
 **********************************/
 class QuizScreen extends Component {
-  state = {
+
+  initialState = () => ({
     cant: this.props.quiz.length,
     done: 0,
     right: 0,
     expanded: false,
-  }
+  })
+
+  state = this.initialState()
 
 
   //Responder la Pregunta
@@ -49,6 +52,10 @@ class QuizScreen extends Component {
       duration: 250
     });
     this.setState({done,right})
+  }
+
+  restartQuiz = () => {
+    this.setState(this.initialState())
   }
 
   componentWillMount() {
@@ -104,6 +111,7 @@ class QuizScreen extends Component {
         <View>
           <Text style={gstyles.titleh1} >You have finished the Quiz</Text>
           <Text style={gstyles.textCenter} >{`Right answers: ${this.state.right} from ${this.state.cant} `}</Text>
+          <Button onPress={() => this.restartQuiz()} title="RESTART QUIZ" buttonStyle={gstyles.buttonStyle} />
           <Button onPress={() => this.props.navigation.goBack(this.props.nav.deckScreenKey)} title="BACK TO MAIN SCREEN" buttonStyle={gstyles.buttonStyle} />
         </View>
       )

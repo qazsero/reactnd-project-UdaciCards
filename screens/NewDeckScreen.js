@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {View, Text, Form} from 'react-native'
+import {View, Text, Form, KeyboardAvoidingView} from 'react-native'
 import {Icon, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native-elements'
 
 import {createDeck} from '../actions'
@@ -39,10 +39,12 @@ class NewDeckScreen extends Component {
   render(){
     return (
       <View>
+        <KeyboardAvoidingView>
           <FormLabel>Name</FormLabel>
           <FormInput value={this.state.deckName} onChangeText={deckName => this.setState({deckName})} />
           {this.state.isEmpty && <FormValidationMessage>Insert a name, please</FormValidationMessage>}
           <Button onPress={this.handleSubmit} title='CREATE DECK' buttonStyle={gstyles.buttonStyle} />
+        </KeyboardAvoidingView>
       </View>
     )
   }

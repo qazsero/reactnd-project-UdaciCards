@@ -22,8 +22,4 @@ class DeckListCard extends Component {
   }
 }
 
-const styles = {
-
-}
-
 export default DeckListCard
