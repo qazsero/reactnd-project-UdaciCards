@@ -1,5 +1,6 @@
 Una versión en castellano está disponible más abajo
 
+---
 
 Submitting the third project of the [React Nanodegree](https://www.udacity.com/course/react-nanodegree--nd019) offered by [Udacity](https://www.udacity.com)
 
