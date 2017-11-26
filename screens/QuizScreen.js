@@ -20,17 +20,13 @@ questionsFromDeck = (state,navigation) => {
 }
 
 
-/**********************************
-Procedimiento
-*Si no hay cartas se muestra mensaje de añadir una carta
-*
-**********************************/
+
 class QuizScreen extends Component {
 
   initialState = () => ({
     cant: this.props.quiz.length,
     done: 0,
-    right: 0,
+    correctAnswers: 0,
     expanded: false,
   })
 
@@ -39,19 +35,19 @@ class QuizScreen extends Component {
 
   //Responder la Pregunta
   answerQuestion = (question, answer) => {
-    let {done,right} = this.state
+    let {done,correctAnswers} = this.state
     //Realizó una pregunta
     done++
     //Si es cierta subimos el contador
-    if(question.true === answer) {
-      right++
+    if(question.isCorrect === answer) {
+      correctAnswers++
     }
     //Finalmente actualizamos el state
     LayoutAnimation.configureNext({
       ...LayoutAnimation.Presets.linear,
       duration: 250
     });
-    this.setState({done,right})
+    this.setState({done,correctAnswers})
   }
 
   restartQuiz = () => {
@@ -110,7 +106,7 @@ class QuizScreen extends Component {
       return (
         <View>
           <Text style={gstyles.titleh1} >You have finished the Quiz</Text>
-          <Text style={gstyles.textCenter} >{`Right answers: ${this.state.right} from ${this.state.cant} `}</Text>
+          <Text style={gstyles.textCenter} >{`correctAnswers answers: ${this.state.correctAnswers} from ${this.state.cant} `}</Text>
           <Button onPress={() => this.restartQuiz()} title="RESTART QUIZ" buttonStyle={gstyles.buttonStyle} />
           <Button onPress={() => this.props.navigation.goBack(this.props.nav.deckScreenKey)} title="BACK TO MAIN SCREEN" buttonStyle={gstyles.buttonStyle} />
         </View>
@@ -148,7 +144,7 @@ class QuizScreen extends Component {
               <TouchableOpacity onPress={() => this.flipCard()} >
                 <Card>
                   <Text style={gstyles.cardTitleh2} >Is the answer correct?</Text>
-                  <Text style={gstyles.textCenter}>{aq.true ? 'YES!':'NO'}</Text>
+                  <Text style={gstyles.textCenter}>{aq.isCorrect ? 'YES!':'NO'}</Text>
                 </Card>
               </TouchableOpacity>
             </Animated.View>

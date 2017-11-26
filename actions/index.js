@@ -13,7 +13,7 @@ export function removeQuestionsFromDeck(id){
 }
 
 export function removeDeck(id){
-  return {type: REMOVE_QUESTIONS_FROM_DECK, id}
+  return {type: REMOVE_DECK, id}
 }
 
 export function sumQuestionToDeck(id){

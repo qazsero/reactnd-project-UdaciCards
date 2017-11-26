@@ -49,7 +49,7 @@ class NewQuestionScreen extends Component {
       parentId,
       question: this.state.question,
       answer: this.state.answer,
-      true:this.state.tfChecked,
+      isCorrect:this.state.tfChecked,
     }
     this.props.createQuestion(values)
     this.props.sumQuestionToDeck(parentId)
