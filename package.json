@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "expo": "^33.0.6",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "react": "16.3.0-alpha.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-easy-toast": "^1.2.0",
